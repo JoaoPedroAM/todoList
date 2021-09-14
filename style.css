@@ -29,6 +29,12 @@ form input,form button{
     background: white;
 }
 
+.todo-input-data{
+    margin-right: 30px;
+    width: 180px;
+
+}
+
 form button{
     color: #4E0250;
     background: white;
@@ -80,6 +86,7 @@ form button:hover{
 }
 .todo-item{
     padding: 0rem 0.5rem;
+    display: flex;
 }
 .fa-trash, .fa-check{
     pointer-events: none;
@@ -88,4 +95,9 @@ form button:hover{
 .completo{
     text-decoration: line-through;
     opacity: 0.5;
+}
+
+.todo-data{
+    padding: 0rem;
+    font-size: 1rem;
 }

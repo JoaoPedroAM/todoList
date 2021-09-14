@@ -4,7 +4,7 @@
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
-
+const dataInput = document.querySelector('.todo-input-data');
 //Event Listner
 document.addEventListener('DOMContentLoaded', getTodos)
 todoButton.addEventListener("click", addTodo);
@@ -18,9 +18,13 @@ function addTodo(event) {
   todoDiv.classList.add("todo");
   //cria o Li
   const novoTodo = document.createElement("li");
+  const novoData = document.createElement("li");
   novoTodo.innerText = todoInput.value;
+  novoData.innerText = dataInput.value;
   novoTodo.classList.add("todo-item");
+  novoData.classList.add("todo-data");
   todoDiv.appendChild(novoTodo);
+  todoDiv.appendChild(novoData);
   //local storage
   saveLocalTodos(todoInput.value);
   //botão Check
@@ -33,7 +37,6 @@ function addTodo(event) {
   lixoButton.innerHTML = '<i class="fas fa-trash"></i>';
   lixoButton.classList.add("lixo-btn");
   todoDiv.appendChild(lixoButton);
-  
   //linkando a lista
   todoList.appendChild(todoDiv);
   //limpar input
@@ -109,5 +112,12 @@ function removeLocal(todo){
   const todoIndex = todo.children[0].innerText;
   todos.splice(todos.indexOf(todoIndex), 1);
   localStorage.setItem('todos', JSON.stringify(todos))
+
+}
+
+function mascaraData(){
+  if(dataInput.value.length == 2 || dataInput.value.length == 5){
+    dataInput.value += "/"
+  }
 
 }
