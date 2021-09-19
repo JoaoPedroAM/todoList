@@ -2,37 +2,26 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Karla:wght@800&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <title>ToDo List</title>
+    <title>todo-list</title>
   </head>
   <body>
-    <header>
-      <h1>TODO LIST</h1>
+    <header class="titulo">
+      <h1>Todo-list</h1>
     </header>
-    <form>
-      <input type="text" class="todo-input-data" placeholder="Data limite" maxlength="10" onkeyup="mascaraData()" />
-      <input type="text" class="todo-input" />
-      <button class="todo-button" type="submit">
-        <i class="fas fa-plus-circle"></i>
-      </button>
-    </form>
-    <div class="todo-container">
-      <ul class="todo-list"></ul>
-    </div>
 
+    <div class="todo">
+      <div class="todo__list" id="todoList">
+      </div>
+
+      <input type="text" placeholder="Tarefas?" class="todo-input" id="novoItem" />
+      <input type="date" class="todo-input-data" />
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

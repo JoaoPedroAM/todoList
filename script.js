@@ -1,123 +1,83 @@
 "use strict";
 
-//selectors
-const todoInput = document.querySelector(".todo-input");
-const todoButton = document.querySelector(".todo-button");
-const todoList = document.querySelector(".todo-list");
-const dataInput = document.querySelector('.todo-input-data');
-//Event Listner
-document.addEventListener('DOMContentLoaded', getTodos)
-todoButton.addEventListener("click", addTodo);
-todoList.addEventListener("click", deleteCheck);
+const data = document.querySelector(".todo-input-data");
+const getBanco = () => JSON.parse(localStorage.getItem("todoList")) ?? [];
+const setBanco = (banco) =>
+  localStorage.setItem("todoList", JSON.stringify(banco));
 
-//Functions
-function addTodo(event) {
-  event.preventDefault();
-  //cria a div
-  const todoDiv = document.createElement("div");
-  todoDiv.classList.add("todo");
-  //cria o Li
-  const novoTodo = document.createElement("li");
-  const novoData = document.createElement("li");
-  novoTodo.innerText = todoInput.value;
-  novoData.innerText = dataInput.value;
-  novoTodo.classList.add("todo-item");
-  novoData.classList.add("todo-data");
-  todoDiv.appendChild(novoTodo);
-  todoDiv.appendChild(novoData);
-  //local storage
-  saveLocalTodos(todoInput.value);
-  //botão Check
-  const checkButton = document.createElement("button");
-  checkButton.innerHTML = '<i class="fas fa-check-circle"></i>';
-  checkButton.classList.add("check-btn");
-  todoDiv.appendChild(checkButton);
-  //Botão de lixo
-  const lixoButton = document.createElement("button");
-  lixoButton.innerHTML = '<i class="fas fa-trash"></i>';
-  lixoButton.classList.add("lixo-btn");
-  todoDiv.appendChild(lixoButton);
-  //linkando a lista
-  todoList.appendChild(todoDiv);
-  //limpar input
-  todoInput.value = "";
+function criarTarefa(tarefa, check, data, indice) {
+  const criaTask = document.createElement("label");
+  criaTask.classList.add("todo-criado");
+  criaTask.innerHTML = `
+            <input type="checkbox" ${check} data-indice=${indice}>
+            <div><p class="texto">${tarefa}</p>
+            <p class="texto-data">Data limite: ${data}</p></div>
+            <input type="button" value="X" class="botao-check" data-indice=${indice}>
+    `;
+  document.getElementById("todoList").appendChild(criaTask);
 }
 
-function deleteCheck(botao) {
-  const item = botao.target;
-  //lixo
-  if (item.classList[0] === "lixo-btn") {
-    const todo = item.parentElement;
-    todo.remove();
-    removeLocal(todo)
+const limpaTudo = function () {
+  const todoList = document.getElementById("todoList");
+  while (todoList.firstChild) {
+    todoList.removeChild(todoList.lastChild);
   }
+};
 
-  //check
-  if (item.classList[0] === "check-btn") {
-    const todo = item.parentElement;
-    todo.classList.toggle("completo");
+const renderTela = function () {
+  limpaTudo();
+  const banco = getBanco();
+  banco.forEach((criarTask, indice) =>
+    criarTarefa(criarTask.task, criarTask.check, criarTask.deadLine, indice)
+  );
+};
+
+const cadastrarTarefa = function (evento) {
+  const tecla = evento.key;
+  const text = evento.target.value;
+  const dataVer = data.value;
+
+  if (tecla === "Enter") {
+    const banco = getBanco();
+    banco.push({ task: text, check: "", deadLine: dataVer });
+    setBanco(banco);
+    renderTela();
+    evento.target.value = "";
   }
-}
+};
 
-function saveLocalTodos(todo) {
-  let todos;
-  if (localStorage.getItem("todos") === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem("todos"));
+const removerItem = function (indice) {
+  const banco = getBanco();
+  banco.splice(indice, 1);
+  setBanco(banco);
+  renderTela();
+};
+
+const atualizarItem = function (indice) {
+  const banco = getBanco();
+  banco[indice].check = banco[indice].check === "" ? "checked" : "";
+  setBanco(banco);
+  renderTela();
+};
+
+const clickItem = function (evento) {
+  const elemento = evento.target;
+  if (elemento.type === "button") {
+    const indice = elemento.dataset.indice;
+    removerItem(indice);
+    renderTela();
+  } else if (elemento.type === "checkbox") {
+    const banco = getBanco();
+    const indice = elemento.dataset.indice;
+    setBanco(banco);
+    atualizarItem(indice);
+    renderTela();
   }
-  todos.push(todo);
-  localStorage.setItem("todos", JSON.stringify(todos));
-}
+};
 
-function getTodos() {
-  let todos;
-  if (localStorage.getItem("todos") === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem("todos"));
-  }
+document
+  .getElementById("novoItem")
+  .addEventListener("keypress", cadastrarTarefa);
+document.getElementById("todoList").addEventListener("click", clickItem);
 
-  todos.forEach(function (todo) {
-    //cria a div
-    const todoDiv = document.createElement("div");
-    todoDiv.classList.add("todo");
-    //cria o Li
-    const novoTodo = document.createElement("li");
-    novoTodo.innerText = todo;
-    novoTodo.classList.add("todo-item");
-    todoDiv.appendChild(novoTodo);
-    //botão Check
-    const checkButton = document.createElement("button");
-    checkButton.innerHTML = '<i class="fas fa-check-circle"></i>';
-    checkButton.classList.add("check-btn");
-    todoDiv.appendChild(checkButton);
-    //Botão de lixo
-    const lixoButton = document.createElement("button");
-    lixoButton.innerHTML = '<i class="fas fa-trash"></i>';
-    lixoButton.classList.add("lixo-btn");
-    todoDiv.appendChild(lixoButton);
-    //linkando a lista
-    todoList.appendChild(todoDiv);
-  });
-}
-
-function removeLocal(todo){
-  let todos;
-  if (localStorage.getItem("todos") === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem("todos"));
-  }
-  const todoIndex = todo.children[0].innerText;
-  todos.splice(todos.indexOf(todoIndex), 1);
-  localStorage.setItem('todos', JSON.stringify(todos))
-
-}
-
-function mascaraData(){
-  if(dataInput.value.length == 2 || dataInput.value.length == 5){
-    dataInput.value += "/"
-  }
-
-}
+renderTela();
