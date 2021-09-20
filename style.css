@@ -37,6 +37,8 @@ h1{
     align-items: center;
     margin: 0 auto;
     gap: 15px;
+    justify-content: center;
+    
 }
 
 .todo__title {
@@ -114,9 +116,11 @@ h1{
 .todo-input-data{
     background-color: white;
     border: none;
-    width: 200px;
-    height: 50px;
+    width: 270px;
     font-size: 1em;
+    height: 50px;
+    margin-top: 20px;
+    padding: 10px;
 }
 
 .texto{
@@ -136,3 +140,23 @@ h1{
     margin-right: 10px;
 }
 
+.cria-item{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    margin: 10px;
+}
+
+.button-delete{
+    background-color: white;
+    border: none;
+    width: 100px;
+    height: 50px;
+    margin-top: 20px;
+}
+.button-delete:hover{
+    cursor: pointer;
+    background-color: rgb(218, 214, 214);
+    transition: all .5s ease;
+}

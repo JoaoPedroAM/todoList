@@ -75,9 +75,18 @@ const clickItem = function (evento) {
   }
 };
 
-document
-  .getElementById("novoItem")
-  .addEventListener("keypress", cadastrarTarefa);
+
+const deletaTudo = function(){
+  let banco = getBanco();
+  banco = [];
+  setBanco(banco);
+  renderTela();
+}
+
+
+document.getElementById("novoItem").addEventListener("keypress", cadastrarTarefa);
 document.getElementById("todoList").addEventListener("click", clickItem);
+document.getElementById("delete").addEventListener("click", deletaTudo);
+
 
 renderTela();
