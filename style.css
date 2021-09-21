@@ -160,3 +160,14 @@ h1{
     background-color: rgb(218, 214, 214);
     transition: all .5s ease;
 }
+
+.tags{
+    border: none;
+    display: flex;
+    margin-right: 645px;
+    width: 200px;
+    height: 50px;
+    padding: 10px;
+    font-size: 1.1em;
+    font: inherit;
+}

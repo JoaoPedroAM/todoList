@@ -1,16 +1,17 @@
 "use strict";
 
 const data = document.querySelector(".todo-input-data");
+const tag = document.querySelector('.tags');
 const getBanco = () => JSON.parse(localStorage.getItem("todoList")) ?? [];
 const setBanco = (banco) =>
   localStorage.setItem("todoList", JSON.stringify(banco));
 
-function criarTarefa(tarefa, check, data, indice) {
+function criarTarefa(tarefa, check, data, indice,marcador) {
   const criaTask = document.createElement("label");
   criaTask.classList.add("todo-criado");
   criaTask.innerHTML = `
             <input type="checkbox" ${check} data-indice=${indice}>
-            <div><p class="texto">${tarefa}</p>
+            <div><p class="texto">${tarefa}  #${marcador}</p>
             <p class="texto-data">Data limite: ${data}</p></div>
             <input type="button" value="X" class="botao-check" data-indice=${indice}>
     `;
@@ -28,7 +29,7 @@ const renderTela = function () {
   limpaTudo();
   const banco = getBanco();
   banco.forEach((criarTask, indice) =>
-    criarTarefa(criarTask.task, criarTask.check, criarTask.deadLine, indice)
+    criarTarefa(criarTask.task, criarTask.check, criarTask.deadLine, indice, criarTask.marcador)
   );
 };
 
@@ -36,13 +37,15 @@ const cadastrarTarefa = function (evento) {
   const tecla = evento.key;
   const text = evento.target.value;
   const dataVer = data.value;
+  const tagVer = tag.value
 
   if (tecla === "Enter") {
     const banco = getBanco();
-    banco.push({ task: text, check: "", deadLine: dataVer });
+    banco.push({ task: text, check: "", deadLine: dataVer,marcador: tagVer });
     setBanco(banco);
     renderTela();
     evento.target.value = "";
+    tag.value ='';
   }
 };
 
