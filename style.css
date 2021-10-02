@@ -77,6 +77,14 @@ p{
     padding: 5px;
     box-shadow: 1px 1px 5px #152f20;
     margin: 5px;
+    border-radius: 5px;
+    padding-right: 0px;
+    border-right: 0px;
+}
+
+label{
+    border: 0px;
+    margin: 0px;
 }
 .todo-criado > div {
     width: 80%;
@@ -85,7 +93,6 @@ p{
 .todo-criado:hover {
     cursor: pointer;
     transition: all .5s ease;
-    background-color: #33754e;
     color: #4E0250;
     
 }
@@ -196,3 +203,28 @@ p{
     
 }
 
+#delete,#edit{
+    width: 80px;
+    height: 60px;
+    font-size: 20px;
+    border: none;
+    margin-right: 0px;
+    
+}
+#delete{
+    border-radius: 5px 0 0 5px;
+}
+#edit{
+    border-radius: 0 5px 5px 0;
+}
+
+#delete:hover,#edit:hover{
+    cursor: pointer;
+    background-color: #4E0250;
+    color: white;
+    transition: all .5s ease;
+}
+
+.fas{
+    pointer-events: none;
+}

@@ -1,5 +1,5 @@
 "use strict";
-
+//variavei
 const data = document.querySelector(".todo-input-data");
 const tag = document.querySelector(".tags");
 const text = document.querySelector(".todo-input");
@@ -14,7 +14,9 @@ function criarTarefa(tarefa, check, data, indice, marcador) {
             <input type="checkbox" ${check} data-indice=${indice}>
             <div><p class="texto">${tarefa}  #${marcador}</p>
             <p class="texto-data">Data limite: ${data}</p></div>
-            <input type="button" value="X" class="botao-check" data-indice=${indice}>
+            
+            <button class="botao-check" id="delete" data-indice=${indice}><i class="fas fa-trash fa-1x"></i></button> 
+            <button class="botao-check" id="edit" data-indice=${indice}><i class="fas fa-pen"></i></button>
     `;
   document.getElementById("todoList").appendChild(criaTask);
 }
@@ -40,7 +42,6 @@ const renderTela = function () {
   );
 };
 
-
 const removerItem = function (indice) {
   const banco = getBanco();
   banco.splice(indice, 1);
@@ -57,17 +58,12 @@ const atualizarItem = function (indice) {
 
 const clickItem = function (evento) {
   const elemento = evento.target;
-  if (elemento.type === "button") {
-    const indice = elemento.dataset.indice;
-    removerItem(indice);
-    renderTela();
+  if (elemento.id === "delete") {
+    deletarSelecionado(evento);
   } else if (elemento.type === "checkbox") {
-    const banco = getBanco();
-    const indice = elemento.dataset.indice;
-    setBanco(banco);
-    atualizarItem(indice);
-    renderTela();
+    checkSelecionado(evento);
   }
+  renderTela();
 };
 
 const addTask = function (evento) {
@@ -75,14 +71,39 @@ const addTask = function (evento) {
   const dataVer = data.value;
   const tagVer = tag.value;
   const banco = getBanco();
-  banco.push({ task: textValor, check: "", deadLine: dataVer, marcador: tagVer });
+  banco.push({
+    task: textValor,
+    check: "",
+    deadLine: dataVer,
+    marcador: tagVer,
+  });
   setBanco(banco);
   renderTela();
   text.value = "";
   tag.value = "";
 };
 
+const deletarSelecionado = function (evento) {
+  const elemento = evento.target;
+  const indice = elemento.dataset.indice;
+  removerItem(indice);
+  
+};
+
+const checkSelecionado = function (evento) {
+  const elemento = evento.target;
+  const banco = getBanco();
+  const indice = elemento.dataset.indice;
+  setBanco(banco);
+  atualizarItem(indice);
+  
+};
+
+
+
+
 document.getElementById("todoList").addEventListener("click", clickItem);
 document.getElementById("addButton").addEventListener("click", addTask);
+
 
 renderTela();
