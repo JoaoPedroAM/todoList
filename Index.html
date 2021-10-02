@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Karla:wght@800&display=swap"
       rel="stylesheet"
     />
+    <script src="https://kit.fontawesome.com/a2a27b1fba.js" crossorigin="anonymous"></script>
     <title>todo-list</title>
   </head>
   <body>
@@ -16,15 +17,16 @@
     </header>
 
     <div class="todo">
-      <div class="todo__list" id="todoList">
-      </div>
-
+      
       <div class="cria-item">
-      <button class="button-delete" id="delete">Delete all</button>
       <input type="text" placeholder="Tarefas" class="todo-input" id="novoItem" /> 
+      <button class="button-add" id="addButton"><i class="fas fa-plus-square fa-2x"></i></button>
+      <input type="text" class="tags" placeholder="Tags">
       <input type="date" class="todo-input-data" />
       </div>
-      <input type="text" class="tags" placeholder="Tags">
+      
+      <div class="todo__list" id="todoList">
+      </div>
 
     </div>
     <script src="script.js"></script>

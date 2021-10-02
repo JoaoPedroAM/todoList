@@ -1,12 +1,13 @@
 "use strict";
 
 const data = document.querySelector(".todo-input-data");
-const tag = document.querySelector('.tags');
+const tag = document.querySelector(".tags");
+const text = document.querySelector(".todo-input");
 const getBanco = () => JSON.parse(localStorage.getItem("todoList")) ?? [];
 const setBanco = (banco) =>
   localStorage.setItem("todoList", JSON.stringify(banco));
 
-function criarTarefa(tarefa, check, data, indice,marcador) {
+function criarTarefa(tarefa, check, data, indice, marcador) {
   const criaTask = document.createElement("label");
   criaTask.classList.add("todo-criado");
   criaTask.innerHTML = `
@@ -29,25 +30,16 @@ const renderTela = function () {
   limpaTudo();
   const banco = getBanco();
   banco.forEach((criarTask, indice) =>
-    criarTarefa(criarTask.task, criarTask.check, criarTask.deadLine, indice, criarTask.marcador)
+    criarTarefa(
+      criarTask.task,
+      criarTask.check,
+      criarTask.deadLine,
+      indice,
+      criarTask.marcador
+    )
   );
 };
 
-const cadastrarTarefa = function (evento) {
-  const tecla = evento.key;
-  const text = evento.target.value;
-  const dataVer = data.value;
-  const tagVer = tag.value
-
-  if (tecla === "Enter") {
-    const banco = getBanco();
-    banco.push({ task: text, check: "", deadLine: dataVer,marcador: tagVer });
-    setBanco(banco);
-    renderTela();
-    evento.target.value = "";
-    tag.value ='';
-  }
-};
 
 const removerItem = function (indice) {
   const banco = getBanco();
@@ -78,18 +70,19 @@ const clickItem = function (evento) {
   }
 };
 
-
-const deletaTudo = function(){
-  let banco = getBanco();
-  banco = [];
+const addTask = function (evento) {
+  const textValor = text.value;
+  const dataVer = data.value;
+  const tagVer = tag.value;
+  const banco = getBanco();
+  banco.push({ task: textValor, check: "", deadLine: dataVer, marcador: tagVer });
   setBanco(banco);
   renderTela();
-}
+  text.value = "";
+  tag.value = "";
+};
 
-
-document.getElementById("novoItem").addEventListener("keypress", cadastrarTarefa);
 document.getElementById("todoList").addEventListener("click", clickItem);
-document.getElementById("delete").addEventListener("click", deletaTudo);
-
+document.getElementById("addButton").addEventListener("click", addTask);
 
 renderTela();
